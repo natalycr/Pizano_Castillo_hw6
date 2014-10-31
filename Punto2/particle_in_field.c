@@ -63,13 +63,6 @@ int main (int argc, char **argv){ // (){//
     V=malloc(3*sizeof(float)); // guarda las velo en vx, vy,vz 
 
     //matrices  
-     R[0]=x;
-     R[1]=y;
-     R[2]=z;
-     V[0]=x2;
-     V[1]=y2;
-     V[2]=z2;
-
 
     x=2*Re;
     y=0.0;
@@ -77,18 +70,31 @@ int main (int argc, char **argv){ // (){//
     vx=0.0;
     vy = v0*sin(pitch*pi/180.0);
     vz = v0*cos(pitch*pi/180.0);
-
-
-    for(i=1;i<n;i++){
+    
+    T[0]=tmin;
+    R[0]=x;
+    R[1]=y;
+    R[2]=z;
+    V[0]=x2;
+    V[1]=y2;
+    V[2]=z2;
+    
+    for(i=1; i<n ;i++) {
+      T[1]=runge_kutta4( T[0] , r,  v);
+      T[0] = t[1]; 
+    }
+    
+    
+    for(i=1; i<n ;i++){
       x=0.0;
       y=0.0;
       z=0.0;
       x2=0.0;
       y2=0.0;
       z2=0.0;
-
+      
       //runge_kutta4( X[i-1],  Y[i-1], Z[i-1],  X2[i-1],  Y2[i-1], Z2[i-1], h, &x, &y, &z, &x2 , &y2 , &z2, cte);
-
+      
       X[i]=x;
       Y[i]=y;
       Z[i]=z;
