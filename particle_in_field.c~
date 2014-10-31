@@ -1,0 +1,258 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+
+#define e = 1.602176565e-19 //Elementary charge (Coulomb)
+#define mpr = 1.672621777e-27 // Proton mass (kg)
+#define mel = 9.10938291e-31 // Electron mass (kg)
+#define c = 299792458 // speed of light (m/s)
+#define B0 = 3.07e-5 // Tesla
+#define Re = 6378137 // meter (Earth radius)
+#define tiempo = 100 // cantidad de segundos que se desea modelar
+
+cont=(e*B0*pow(Re,3))/(gamma*mpr*pow(r,5));
+
+int main (){//(int argc, char **argv){
+    
+    FILE *arch;
+    Ek = 1000//atof(argv[1]); // Energìa en MeV
+    pitch= 30//atof(argv[2]); // ángulo
+    EkJ = e*Ek; //Energìa en Joules
+    
+    //Abrir archivo para escribir datos
+    char file[30]="trayectoria_E_alpha.dat";
+    arch =fopen(file,"w");
+    if(!arch)
+    {
+        printf("problems opening the file %s\n", file);
+        exit(1);
+    }
+    
+    //Inicializando variables
+    double vz0;
+    double vy0;
+    double vx0;
+    double *p;
+    double *v;
+    p=malloc(sizeof(double)*n);
+    v=malloc(sizeof(double)*n);
+    
+    // velocidad y gamma:
+	vo = (EkJ+(mpr*(pow(c,2))))/sqrt(mpr*EkJ*(pow(c,2))*(EkJ+(2*(pow(c,2)))));
+    gamma = 1/(sqrt(1-((pow(vo,2))/(pow(c,2)))));
+    
+    //Inicializacion de punteros
+    float *xx;
+    float *yy;
+    float *zz;
+    float *vx;
+    float *vy;
+    float *vz;
+    float *tiemp;
+    int dt = tiempo/0.1; // el paso
+    
+    //Reservar memoria para cada caso
+    vx=malloc(sizeof(float)*N);
+    vy=malloc(sizeof(float)*N);
+    vz=malloc(sizeof(float)*N);
+    xx=malloc(sizeof(float)*N);
+    yy=malloc(sizeof(float)*N);
+    zz=malloc(sizeof(float)*N);
+    tiemp=malloc(sizeof(float)*N);
+    
+    if(pitch==90){
+        z2[0] = 0;  // ahorrar calculos innecesarios
+    }
+    else
+    {
+        Z2[0] = v0*cos(pitch*pi/180);
+    }
+    Y2[0] = v*sin(pitch_angle*pi/180);
+
+//------------------------------
+
+     /*
+     Condiciones iniciales 
+     */
+
+    double  *X, *Y, *Z, *X2, *Y2, *Z2,*T, num_puntos, cte, r;
+    int i;
+
+    num_puntos=100.0;
+r=
+    cte=(e*B0*pow(Re,3))/(gamma*mpr);
+
+    T=malloc(num_puntos*sizeof(double));
+    X=malloc(num_puntos*sizeof(double));
+    Y=malloc(num_puntos*sizeof(double));
+    Z=malloc(num_puntos*sizeof(double));
+
+    X2=malloc(num_puntos*sizeof(double));
+    Y2=malloc(num_puntos*sizeof(double));
+    Z2=malloc(num_puntos*sizeof(double));
+
+    for (i=1;i<num_puntos;i++){
+      T[i]=i*(1.0/num_puntos);
+      X[i]=0.0;
+      Y[i]=0.0;
+      Z[i]=0.0;
+      X2[i]=0.0;
+      Y2[i]=0.0;
+      Z2[i]=0.0;
+}
+    X[0]=2*Re;
+
+    if(pitch==90){
+      z2[0] = 0;  // ahorrar calculos innecesarios
+    }
+    else
+      {
+        Z2[0] = v0*cos(pitch*pi/180);
+      }
+    Y2[0] = v*sin(pitch_angle*pi/180);
+
+    if(i=1;i<num_puntos; i++){
+      x=X[i];
+      y=Y[i];
+      z=Z[i];
+      x2=X2[i];
+      y2=Y2[i];
+      z2=Z2[i];
+      runfge_kutta4orden(X[i-1], Y[i-1],Z[i-1], X2[i-1],Y2[i-1], Z2[i-1], h, &x, &y, &z, &x2 ,&y2 ,&z2 );
+      X[i]=x;
+      Y[i]=y;
+      Z[i]=z;
+      X2[i]=x2;
+      Y2[i]=y2;
+      Z2[i]=z2;
+}
+
+    return 0;
+}
+void runge_kutta4orden(double X_old, double Y_old,double Z_old, double X2_old,double Y2_old, double Z2_old, double h,double *x, double *y, double *z,double*x2 ,double *y2 ,double *z2){
+  double k1_x, k1_y, k1_z, k1_vx, k1_vy, k1_vz, x_1, y_1, z_1, x2_1, y2_1, z2_1  ,k2_x, K2_vx;
+
+  k1_x= v_x(X2_old, Y2_old, Z2_old);
+  k1_vx = deri_vx( X_old,  Y_old, Z_old,X2_old, Y2_old, Z2_old);
+
+  k1_y= v_y(x_old, y_old, z2_old);
+  k1_vy = deri_vy( X_old,  Y_old, Z_old,X2_old, Y2_old, Z2_old);
+  
+  k1_z= v_z(x_old, y_old, z2_old);
+  K1_vz = deri_vz( X_old,  Y_old, Z_old,X2_old, Y2_old, Z2_old);
+
+  //_________________primer paso __________________
+
+  x_1= X_old + (h/2.0)* k1_x;
+  x2_1=X2_old + (h/2.0)* k1_vx;
+
+  y_1= Y_old + (h/2.0)* k1_y;
+  y2_1= Y2_old + (h/2.0)* k1_vx;
+
+  z_1=Z_old + (h/2.0)* k1_z;
+  z2_1=Z2_old + (h/2.0)* k1_vx;
+
+  k2_x=v_x(x_1, y_1, z_1);
+  k2_vx=dari_vx(x_1, y_1, z_1, x2_1, y2_1, z2_1);
+
+  k2_y=v_y(x_1, y_1, z_1);
+  k2_vy=dari_vy(x_1, y_1, z_1, x2_1, y2_1, z2_1);
+
+  k2_z=v_z(x_1, y_1, z_1);
+  k2_vz=dari_vz(x_1, y_1, z_1, x2_1, y2_1, z2_1);
+  
+  //_________________Segundo  paso __________________
+
+  x_2= X_old + (h/2.0)* k2_x;
+  x2_2= X2_old + (h/2.0)* k2_vx;
+
+  y_2= Y_old + (h/2.0)* k2_y;
+  y2_2= Y2_old + (h/2.0)* k2_vx;
+
+  z_2=Z_old + (h/2.0)* k2_z;
+  z2_2=Z2_old + (h/2.0)* k2_vx;
+
+  k3_x=v_x(x_2, y_2, z_2);
+  k3_vx=dari_vx(x_2, y_2, z_2, x2_2, y2_2, z2_2);
+
+  k3_y=v_y(x_2, y_2, z_2);
+  k3_vy=dari_vy(x_2, y_2, z_2, x2_2, y2_2, z2_2);
+
+  k3_z=v_z(x_2, y_2, z_2);
+  k3_vz=dari_vz(x_2, y_2, z_2, x2_2, y2_2, z2_2);
+
+  //_________________Tercer paso __________________
+
+  x_3= X_old + (h/2.0)* k3_x;
+  x2_3= X2_old + (h/2.0)* k3_vx;
+
+  y_3= Y_old + (h/2.0)* k3_y;
+  y2_3= Y2_old + (h/2.0)* k3_vx;
+
+  z_3 = Z_old + (h/2.0)* k3_z;
+  z2_3 = Z2_old + (h/2.0)* k3_vx;
+
+  k4_x=v_x(x_3, y_3, z_3);
+  k4_vx=dari_vx(x_3, y_3, z_3, x2_3, y2_3, z2_3);
+
+  k4_y=v_y(x_3, y_3, z_3);
+  k4_vy=dari_vy(x_3, y_3, z_3, x2_3, y2_3, z2_3);
+
+  k4_z=v_z(x_3, y_3, z_3);
+  k4_vz=dari_vz(x_3, y_3, z_3, x2_3, y2_3, z2_3);
+
+
+ //-----------------------
+}
+
+double r(double x ,double y, double z){
+  denRa=pow(x,2)+pow(y,2)+pow(z,2);
+  return pow(denRa, 0.5);
+}
+/*
+  velocidad 
+*/
+
+//x1
+double v_x(double x2, double y2, double z2){ 
+  //dx/dt pero no depende de t por eso no lo coloque 
+  return x2;
+}
+//y1
+double v_y(double x2, double y2, double z2){ 
+  //dx/dt pero no depende de t por eso no lo coloque 
+  return y2;
+}
+//z1
+double v_z(double x2, double y2, double z2){ 
+  //dx/dt pero no depende de t por eso no lo coloque 
+  return z2;
+}
+
+/*
+ aceleracion 
+*/
+
+//x2
+double deri_vx(double x, double y, double z, double x2, double y2, double z2){ 
+  //dx/dt pero no depende de t por eso no lo coloque 
+  
+  rp=r(x,y,z);// radio de la particula
+  return (cte/(pow(rp,5)))*(x2*(2*pow(z,2)-pow(x,2)-pow(y,2))- (3*z2*y*z));
+}
+
+
+//y2
+double deri_vy(double x ,double y, double z, double x2 ,double y2 ,double z2){ 
+  //dy/dt pero no depende de t por eso no lo coloque 
+  rp=r(x,y,z);// radio de la particula
+  return ((z2*3*x*z)-(x2*(2*pow(z,2)-pow(x,2)-pow(y,2))));
+}
+
+//z2
+double deri_vz(double x ,double y, double z, double x2 ,double y2 ,double z2){
+  //dy/dt pero no depende de t por eso no lo coloque 
+  rp=r(x,y,z);// radio de la particula
+  return ((x2*3*y*z)-(y2*3*x*z));
+}
