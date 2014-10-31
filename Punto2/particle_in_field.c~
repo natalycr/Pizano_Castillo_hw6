@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
+
+#define e 1.602176565e-19 //Elementary charge (Coulomb)
+#define mpr 1.672621777e-27 // Proton mass (kg)
+#define mel 9.10938291e-31 // Electron mass (kg)
+#define c 299792458 // speed of light (m/s)
+#define B0 3.07e-5 // Tesla
+#define Re 6378137 // meter (Earth radius)
+#define tiempo  100.0 // cantidad de segundos que se desea modelar
+#define pi 3.14159
+
+double r(double x ,double y, double z);
+
+double v_x(double x2, double y2, double z2);
+double v_y(double x2, double y2, double z2);
+double v_z(double x2, double y2, double z2);
+
+double deri_vx(double x, double y, double z, double x2, double y2, double z2, double cte);
+double deri_vy(double x ,double y, double z, double x2 ,double y2 ,double z2, double cte);
+double deri_vz(double x ,double y, double z, double x2 ,double y2 ,double z2, double cte);
+
+void runge_kutta4(double X_old, double Y_old,double Z_old, double X2_old,double Y2_old, double Z2_old, double h, double *x, double *y, double *z,double*x2 ,double *y2 ,double *z2, double cte);
+

@@ -49,10 +49,8 @@ int main (int argc, char **argv){ // (){//
     strcat(nombre, argv[2]);
     strcat(nombre,".dat");
 
-    printf("%s \n", nombre);
-
     //file= malloc(50*sizeof(char));
-    arch =fopen(nombre,"w");
+
     /*
     if(!arch)
     {
@@ -80,6 +78,9 @@ int main (int argc, char **argv){ // (){//
     X2=malloc(n*sizeof(double));
     Y2=malloc(n*sizeof(double));
     Z2=malloc(n*sizeof(double));
+    X[0]=2*Re;
+
+    printf("%f\n", X[0]);
 
     for (i=1;i<n;i++){
       T[i]=i*(1.0/n);
@@ -89,9 +90,13 @@ int main (int argc, char **argv){ // (){//
       X2[i]=0.0;
       Y2[i]=0.0;
       Z2[i]=0.0;
-}
-    X[0]=2*Re;
+      //printf("%f %f dentro  for \n", X[i], Y[i]);
+    }
 
+    printf("%s  despues hoa  \n", nombre);
+
+
+    /*
     if(pitch==90){
       Z2[0] = 0;  // ahorrar calculos innecesarios
     }
@@ -99,10 +104,13 @@ int main (int argc, char **argv){ // (){//
       {
         Z2[0] = v0*cos(pitch*pi/180);
       }
+    */
 
     Y2[0] = v0*sin(pitch*pi/180);
+    Z2[0] = v0*cos(pitch*pi/180);
 
     for(i=1 ; i<n; i++){
+      
       x=X[i];
       y=Y[i];
       z=Z[i];
@@ -123,6 +131,9 @@ int main (int argc, char **argv){ // (){//
     /* 
        genera archivo
     */
+
+    arch =fopen(nombre,"w");
+
     for (j=0;j<n ;j++){
 
       fprintf( arch, "%f \t %f \t %f \t %f \n", T[j] , X[j], Y[j], Z[j]) ;
