@@ -60,7 +60,7 @@ int main (int argc, char **argv){ // (){//
     */
  
     // velocidad - gamma - cte:
-    vo = (EkJ+(mpr*(pow(c,2))))/sqrt(mpr*EkJ*(pow(c,2))*(EkJ+(2*(pow(c,2)))));
+    vo = sqrt(1-(1-pow(((Ek/mpr)+1),2)));//(EkJ+(mpr*(pow(c,2))))/sqrt(mpr*EkJ*(pow(c,2))*(EkJ+(2*(pow(c,2)))));
     gamma = 1/(sqrt(1-((pow(vo,2))/(pow(c,2)))));
     cte=(e*B0*pow(Re,3))/(gamma*mpr);
 
@@ -90,7 +90,7 @@ int main (int argc, char **argv){ // (){//
       X2[i]=0.0;
       Y2[i]=0.0;
       Z2[i]=0.0;
-      //printf("%f %f dentro  for \n", X[i], Y[i]);
+      printf("%f %f dentro  for \n", X[i], Y[i]);
     }
 
     printf("%s  despues hoa  \n", nombre);

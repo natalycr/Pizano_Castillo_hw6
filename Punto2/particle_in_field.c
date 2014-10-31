@@ -27,13 +27,13 @@ void runge_kutta4(double X_old, double Y_old,double Z_old, double X2_old,double 
 int main (int argc, char **argv){ // (){//
     
     FILE *arch;
-    double Ek, pitch, EkJ, vo, gamma, n, h, tmax, tmin, cte, r, x, y, z, x2, y2,z2 , v0; //, num_puntos
+    double Ek, pitch, EkJ, vo, gamma, n, h, tmax, tmin, cte, r, x, y, z, x2, y2, z2 , v0; //, num_puntos
     double  *X, *Y, *Z, *X2, *Y2, *Z2, *T;
     int i, j;
 
     Ek = atof(argv[1]); // Energìa en MeV 1000; //
     pitch= atof(argv[2]); // ángulo 30; //
-    EkJ = e*Ek*10E6; //Energìa en Joules
+    EkJ = e*Ek; //Energìa en Joules
     tmin=0.0; //segundos
     h=0.001; // paso
     n=(tiempo-tmin)/n; //numero puntos 
@@ -48,7 +48,7 @@ int main (int argc, char **argv){ // (){//
     strcat(nombre,".dat");
 
     // velocidad - gamma - cte:
-    vo = (EkJ+(mpr*(pow(c,2))))/sqrt(mpr*EkJ*(pow(c,2))*(EkJ+(2*(pow(c,2)))));
+    vo = sqrt(1-(1-pow(((Ek/mpr)+1),2))); //(EkJ+(mpr*(pow(c,2))))/sqrt(mpr*EkJ*(pow(c,2))*(EkJ+(2*(pow(c,2)))));
     gamma = 1/(sqrt(1-((pow(vo,2))/(pow(c,2)))));
     cte=(e*B0*pow(Re,3))/(gamma*mpr);
 
@@ -57,22 +57,27 @@ int main (int argc, char **argv){ // (){//
      Condiciones iniciales 
      */
 
-    //num_puntos=100.0;
 
-    T=malloc(n*sizeof(double));
-    X=malloc(n*sizeof(double));
-    Y=malloc(n*sizeof(double));
-    Z=malloc(n*sizeof(double));
+    T=malloc(2*sizeof(float));
+    R=malloc(3*sizeof(float)); // Guarda las posiciones  en x,y,z
+    V=malloc(3*sizeof(float)); // guarda las velo en vx, vy,vz 
 
-    X2=malloc(n*sizeof(double));
-    Y2=malloc(n*sizeof(double));
-    Z2=malloc(n*sizeof(double));
+    //matrices  
+     R[0]=x;
+     R[1]=y;
+     R[2]=z;
+     V[0]=x2;
+     V[1]=y2;
+     V[2]=z2;
 
-    X[0]=2*Re;
-    Y2[0] = v0*sin(pitch*pi/180.0);
-    Z2[0] = v0*cos(pitch*pi/180.0);
 
-    printf("%f %f %f %f vo  \n", X[0], Y2[0], Z2[0], v0);
+    x=2*Re;
+    y=0.0;
+    z=0.0;
+    vx=0.0;
+    vy = v0*sin(pitch*pi/180.0);
+    vz = v0*cos(pitch*pi/180.0);
+
 
     for(i=1;i<n;i++){
       x=0.0;
